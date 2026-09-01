@@ -8,13 +8,21 @@
 Что заложено, а что нет и почему — `BACKLOG.md`.
 Три сюжета с известным по построению ответом — `SCENARIOS.md`.
 Что подмешано в данные и в какой доле — `DIRT.md`.
+Слой выгрузок поверх готовых parquet — `exports/README.md`.
 
 ## Собрать и проверить
 
 ```bash
-python3 generator/gen_b2b.py     # ~40 секунд
-python3 verify.py                # 32 проверки
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/python generator/gen_b2b.py     # ~40 секунд
+.venv/bin/python verify.py                # 32 проверки
+.venv/bin/python exports/make_export.py --all
+.venv/bin/python exports/verify_exports.py
 ```
+
+Вынесено из `retail-lab` 2026-09-01 отдельным репозиторием, без истории.
+Перенос проверен: хеши всех шести файлов совпали с записанными ниже,
+и генератор на новом месте воспроизводит их байт в байт.
 
 `verify.py` не импортирует генератор. Единственный канал между ними —
 `generator/truth.json`: объявленные входы и объявленные ожидания сюжетов.
