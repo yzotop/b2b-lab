@@ -1,0 +1,161 @@
+{
+  "seed": 20260901,
+  "start_date": "2015-01-01",
+  "end_date": "2025-12-31",
+  "cursor": "2025-10-01",
+  "acq_per_month_base": 145.0,
+  "acq_growth_yearly": 0.015,
+  "acq_month_factor": [
+    1.18,
+    1.05,
+    1.32,
+    0.96,
+    0.88,
+    0.8,
+    0.74,
+    0.92,
+    1.24,
+    1.1,
+    1.02,
+    0.79
+  ],
+  "size_mix": {
+    "micro": 0.46,
+    "small": 0.33,
+    "medium": 0.16,
+    "large": 0.05
+  },
+  "size_null_share": 0.09,
+  "channel_mix": {
+    "site": 0.36,
+    "call": 0.23,
+    "partner": 0.19,
+    "referral": 0.13,
+    "selfserve": 0.09
+  },
+  "region_mix": {
+    "R01": 0.24,
+    "R02": 0.17,
+    "R03": 0.14,
+    "R04": 0.12,
+    "R05": 0.11,
+    "R06": 0.09,
+    "R07": 0.08,
+    "R08": 0.05
+  },
+  "plans": {
+    "basic": {
+      "tier": 1,
+      "price_month": 1900.0
+    },
+    "standard": {
+      "tier": 2,
+      "price_month": 4200.0
+    },
+    "pro": {
+      "tier": 3,
+      "price_month": 9800.0
+    }
+  },
+  "plan_by_size": {
+    "micro": {
+      "basic": 0.74,
+      "standard": 0.23,
+      "pro": 0.03
+    },
+    "small": {
+      "basic": 0.41,
+      "standard": 0.47,
+      "pro": 0.12
+    },
+    "medium": {
+      "basic": 0.14,
+      "standard": 0.52,
+      "pro": 0.34
+    },
+    "large": {
+      "basic": 0.04,
+      "standard": 0.31,
+      "pro": 0.65
+    },
+    "null": {
+      "basic": 0.52,
+      "standard": 0.36,
+      "pro": 0.12
+    }
+  },
+  "duration_mix": {
+    "12": 0.74,
+    "6": 0.19,
+    "24": 0.07
+  },
+  "upgrade_share": 0.09,
+  "downgrade_share": 0.05,
+  "renew_p_first": 0.32,
+  "renew_p_mature": 0.87,
+  "renew_p_late": 0.62,
+  "renew_late_from_seq": 7,
+  "liquidation_hazard_yearly": 0.028,
+  "renewal_lag_before": 2,
+  "renewal_lag_after": 1,
+  "renewal_lag_switch": "2023-07-01",
+  "early_pay_share": 0.14,
+  "early_pay_days_min": 32,
+  "early_pay_days_max": 78,
+  "late_pay_share": 0.27,
+  "late_pay_days_mean": 62.0,
+  "late_pay_days_max": 165,
+  "liq_record_delay_days_mean": 74.0,
+  "liq_record_delay_days_max": 240,
+  "discount_share_of_subs": 0.58,
+  "discount_pct_mean": 0.12,
+  "discount_pct_max": 0.35,
+  "events_per_month": {
+    "micro": 6.0,
+    "small": 14.0,
+    "medium": 38.0,
+    "large": 96.0,
+    "null": 11.0
+  },
+  "event_types": {
+    "login": 0.46,
+    "document": 0.31,
+    "send": 0.14,
+    "calc": 0.06,
+    "setup": 0.03
+  },
+  "record_lag_days_max": 3,
+  "scenarios": {
+    "s1_renewal_lag": {
+      "empty_plan_month": "2023-07",
+      "ends_smooth_max_jump": 0.45,
+      "plan_min_jump": 0.25
+    },
+    "s2_asof": {
+      "cohort_month": "2025-03",
+      "dates": [
+        "2025-04-30",
+        "2025-05-31",
+        "2025-07-31"
+      ],
+      "min_spread_pp": 3.0
+    },
+    "s3_lifetime": {
+      "cohort_before": "2017-01-01",
+      "max_censored_share": 0.06,
+      "churn_window": [
+        "2021-01-01",
+        "2023-12-31"
+      ],
+      "min_overestimate_gross": 1.05,
+      "min_overestimate_net": 1.1,
+      "net_above_gross": true
+    },
+    "s4_two_revenues": {
+      "year": 2024,
+      "min_year_gap": 0.003,
+      "max_year_gap": 0.05,
+      "total_tolerance": 0.01
+    }
+  }
+}

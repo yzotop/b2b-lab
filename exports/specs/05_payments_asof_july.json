@@ -1,0 +1,16 @@
+{
+  "name": "05_payments_asof_july",
+  "source_dir": "data",
+  "source_sql": "select p.payment_id, p.org_id, p.paid_at, p.amount, p.recorded_at, i.period_start from {payments} p join {invoices} i using(invoice_id)",
+  "source_tables": [
+    "payments",
+    "invoices"
+  ],
+  "format": "csv",
+  "as_of": "2025-07-31",
+  "as_of_column": "recorded_at",
+  "control_columns": [
+    "amount"
+  ],
+  "correct_note": "Платежи вместе с периодом, к которому относятся, на 31 июля 2025. Период закрыт, а платежи по нему ещё доезжают — поэтому месяц в этой копии меньше, чем будет в следующей."
+}

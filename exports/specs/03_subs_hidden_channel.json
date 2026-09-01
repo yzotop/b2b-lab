@@ -1,0 +1,14 @@
+{
+  "name": "03_subs_hidden_channel",
+  "source_dir": "data",
+  "table": "subscriptions",
+  "format": "csv",
+  "hidden_filter": "channel = 'site'",
+  "hidden_filter_columns": [
+    "channel"
+  ],
+  "control_columns": [
+    "duration_months"
+  ],
+  "correct_note": "Выгрузка сделана по одному каналу привлечения, колонки channel в ней нет. По строкам это не проверяется — только сверкой числа строк с контрольной суммой источника."
+}

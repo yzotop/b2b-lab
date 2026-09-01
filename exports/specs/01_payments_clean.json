@@ -1,0 +1,10 @@
+{
+  "name": "01_payments_clean",
+  "source_dir": "data",
+  "table": "payments",
+  "format": "csv",
+  "control_columns": [
+    "amount"
+  ],
+  "correct_note": "Ручек нет. Выгрузка обязана совпасть с источником построчно и по сумме."
+}

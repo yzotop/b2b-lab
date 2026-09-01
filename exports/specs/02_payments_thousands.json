@@ -1,0 +1,13 @@
+{
+  "name": "02_payments_thousands",
+  "source_dir": "data",
+  "table": "payments",
+  "format": "csv",
+  "multiplier": {
+    "amount": 0.001
+  },
+  "control_columns": [
+    "amount"
+  ],
+  "correct_note": "Колонка amount выгружена в тысячах, заголовок не изменён. Правильная сумма = выгруженная / 0.001."
+}
