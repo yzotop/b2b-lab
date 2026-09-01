@@ -1,0 +1,42 @@
+{
+  "seed": 20260902,
+  "years": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "units_basis": "orgs",
+  "model_error_pct": 0.03,
+  "units_error_pct": 0.02,
+  "premium_share": 0.22,
+  "revised_years": [
+    2021,
+    2024
+  ],
+  "revision_uplift": 0.15,
+  "revision_month": 7,
+  "scenarios": {
+    "s1_units_basis": {
+      "overcount_min": 1.04,
+      "overcount_max": 1.14,
+      "orgs_dev_max": 0.06,
+      "payments_dev_min": 0.03
+    },
+    "s2_premium": {
+      "model_dev_max": 0.05,
+      "approved_dev_min": 0.12,
+      "premium_tolerance": 0.03
+    },
+    "s3_revision": {
+      "unrevised_must_match": true,
+      "uplift_tolerance": 1e-06,
+      "min_execution_gap_pp": 8.0
+    }
+  }
+}
