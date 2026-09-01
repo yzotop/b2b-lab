@@ -1,0 +1,45 @@
+# Задачи конвейера: посчитать ячейку по заданным параметрам.
+# Метрика одна и та же во всех: сумма payments.amount за год по дате
+# оплаты (paid_at), сведённая с осями через invoices -> subscriptions.
+#
+# Оси: регион (orgs.region, 8), канал (subscriptions.channel, 5),
+#      тариф (plans.tier, 3). Год фиксирован — 2023.
+#
+# Плана по этим осям в стенде нет: plan.parquet одномерный
+# (size_segment x plan_year). Сетка взята с фактовой стороны;
+# приёму «сходимость по осям» план не нужен, нужен куб с полями.
+
+year: 2023
+
+tasks:
+  - {id: T01, kind: итог,   fix: {}}
+
+  - {id: T02, kind: регион, fix: {region: R01}}
+  - {id: T03, kind: регион, fix: {region: R02}}
+  - {id: T04, kind: регион, fix: {region: R03}}
+  - {id: T05, kind: регион, fix: {region: R04}}
+  - {id: T06, kind: регион, fix: {region: R05}}
+  - {id: T07, kind: регион, fix: {region: R06}}
+  - {id: T08, kind: регион, fix: {region: R07}}
+  - {id: T09, kind: регион, fix: {region: R08}}
+
+  - {id: T10, kind: канал,  fix: {channel: site}}
+  - {id: T11, kind: канал,  fix: {channel: call}}
+  - {id: T12, kind: канал,  fix: {channel: partner}}
+  - {id: T13, kind: канал,  fix: {channel: referral}}
+  - {id: T14, kind: канал,  fix: {channel: selfserve}}
+
+  - {id: T15, kind: тариф,  fix: {tier: 1}}
+  - {id: T16, kind: тариф,  fix: {tier: 2}}
+  - {id: T17, kind: тариф,  fix: {tier: 3}}
+
+  # Двумерные ячейки: ни в одну краевую сумму не входят целиком.
+  - {id: T18, kind: ячейка, fix: {region: R01, channel: site}}
+  - {id: T19, kind: ячейка, fix: {region: R02, channel: call}}
+  - {id: T20, kind: ячейка, fix: {region: R03, channel: partner}}
+
+# Инварианты: только внутренние, внешняя правда не нужна.
+invariants:
+  - {id: I1, name: сумма по регионам = итог, parts: [T02,T03,T04,T05,T06,T07,T08,T09], total: T01}
+  - {id: I2, name: сумма по каналам = итог,  parts: [T10,T11,T12,T13,T14],             total: T01}
+  - {id: I3, name: сумма по тарифам = итог,  parts: [T15,T16,T17],                     total: T01}
