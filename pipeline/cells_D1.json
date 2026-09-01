@@ -1,0 +1,187 @@
+{
+  "defect": "D1",
+  "year": 2023,
+  "cells": [
+    {
+      "id": "T01",
+      "kind": "итог",
+      "fix": {},
+      "value": 211517000.36,
+      "defective": false
+    },
+    {
+      "id": "T02",
+      "kind": "регион",
+      "fix": {
+        "region": "R01"
+      },
+      "value": 50716182.2,
+      "defective": false
+    },
+    {
+      "id": "T03",
+      "kind": "регион",
+      "fix": {
+        "region": "R02"
+      },
+      "value": 35525660.31,
+      "defective": false
+    },
+    {
+      "id": "T04",
+      "kind": "регион",
+      "fix": {
+        "region": "R03"
+      },
+      "value": 29434881.68,
+      "defective": false
+    },
+    {
+      "id": "T05",
+      "kind": "регион",
+      "fix": {
+        "region": "R04"
+      },
+      "value": 24460088.2,
+      "defective": true
+    },
+    {
+      "id": "T06",
+      "kind": "регион",
+      "fix": {
+        "region": "R05"
+      },
+      "value": 24461930.94,
+      "defective": false
+    },
+    {
+      "id": "T07",
+      "kind": "регион",
+      "fix": {
+        "region": "R06"
+      },
+      "value": 17526206.55,
+      "defective": false
+    },
+    {
+      "id": "T08",
+      "kind": "регион",
+      "fix": {
+        "region": "R07"
+      },
+      "value": 17157185.14,
+      "defective": false
+    },
+    {
+      "id": "T09",
+      "kind": "регион",
+      "fix": {
+        "region": "R08"
+      },
+      "value": 11417526.43,
+      "defective": false
+    },
+    {
+      "id": "T10",
+      "kind": "канал",
+      "fix": {
+        "channel": "site"
+      },
+      "value": 75153011.39,
+      "defective": false
+    },
+    {
+      "id": "T11",
+      "kind": "канал",
+      "fix": {
+        "channel": "call"
+      },
+      "value": 47577873.68,
+      "defective": false
+    },
+    {
+      "id": "T12",
+      "kind": "канал",
+      "fix": {
+        "channel": "partner"
+      },
+      "value": 39954181.82,
+      "defective": false
+    },
+    {
+      "id": "T13",
+      "kind": "канал",
+      "fix": {
+        "channel": "referral"
+      },
+      "value": 28880291.63,
+      "defective": false
+    },
+    {
+      "id": "T14",
+      "kind": "канал",
+      "fix": {
+        "channel": "selfserve"
+      },
+      "value": 19951641.84,
+      "defective": false
+    },
+    {
+      "id": "T15",
+      "kind": "тариф",
+      "fix": {
+        "tier": 1
+      },
+      "value": 44607186.15,
+      "defective": false
+    },
+    {
+      "id": "T16",
+      "kind": "тариф",
+      "fix": {
+        "tier": 2
+      },
+      "value": 77131769.83,
+      "defective": false
+    },
+    {
+      "id": "T17",
+      "kind": "тариф",
+      "fix": {
+        "tier": 3
+      },
+      "value": 89778044.38,
+      "defective": false
+    },
+    {
+      "id": "T18",
+      "kind": "ячейка",
+      "fix": {
+        "region": "R01",
+        "channel": "site"
+      },
+      "value": 18281748.6,
+      "defective": false
+    },
+    {
+      "id": "T19",
+      "kind": "ячейка",
+      "fix": {
+        "region": "R02",
+        "channel": "call"
+      },
+      "value": 7382146.52,
+      "defective": false
+    },
+    {
+      "id": "T20",
+      "kind": "ячейка",
+      "fix": {
+        "region": "R03",
+        "channel": "partner"
+      },
+      "value": 5526541.65,
+      "defective": false
+    }
+  ]
+}
