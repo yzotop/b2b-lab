@@ -105,6 +105,9 @@ def main() -> int:
     for cov, label in ((True, "закрыто (w2, p1)"), (False, "открыто (w1, w3, p2, p3)")):
         g = [x for x in out if x["covered"] == cov]
         cc = Counter(x["verdict"] for x in g)
+        if not g:
+            print(f"  {label:26s} n=  0  (в этом прогоне нет)")
+            continue
         print(f"  {label:26s} n={len(g):3d}  верных {cc['верный']/len(g):5.1%}  "
               f"наивных {cc['наивный']/len(g):5.1%}  мимо {cc['мимо']/len(g):5.1%}")
 
