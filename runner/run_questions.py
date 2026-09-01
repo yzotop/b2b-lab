@@ -64,7 +64,7 @@ def build_context(con) -> str:
         for row in sample:
             parts.append("    " + " | ".join(str(x)[:28] for x in row))
     parts.append("\n\n## Семантический слой (metrics/metrics.yml)\n")
-    parts.append("```yaml\n" + (ROOT / "metrics" / "metrics.yml").read_text(encoding="utf-8") + "```")
+    parts.append("```yaml\n" + METRICS_PATH.read_text(encoding="utf-8") + "```")
     return "\n".join(parts)
 
 
@@ -130,6 +130,9 @@ def ask(client, model: str, context: str, question: str, con) -> dict:
             "stop_reason": r.stop_reason}
 
 
+METRICS_PATH = ROOT / "metrics" / "metrics.yml"
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="claude-sonnet-5")
@@ -138,7 +141,11 @@ def main() -> int:
     ap.add_argument("--resume", action="store_true")
     ap.add_argument("--only", nargs="*")
     ap.add_argument("--workers", type=int, default=1)
+    ap.add_argument("--metrics", default=str(ROOT / "metrics" / "metrics.yml"))
     args = ap.parse_args()
+
+    global METRICS_PATH
+    METRICS_PATH = Path(args.metrics)
 
     key = os.environ.get("ANTHROPIC_API_KEY")
     if not key:
