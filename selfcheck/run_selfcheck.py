@@ -53,7 +53,7 @@ ASK = """Задача от продакта:
 V = re.compile(r"ВЕРДИКТ:\s*(не\s+могу|могу)", re.I)
 
 
-def build_context(con) -> str:
+def build_context(con, metrics_path=None) -> str:
     parts = ["## Состав витрины\n",
              "Файлы parquet в каталоге `data/`. Строк данных ты не видишь.\n"]
     for t in TABLES:
@@ -65,7 +65,7 @@ def build_context(con) -> str:
         parts.append("\n".join(f"  {c[0]} : {c[1]}" for c in cols))
     parts.append("\n\n## Семантический слой (metrics/metrics.yml)\n")
     parts.append("```yaml\n" +
-                 (ROOT / "metrics" / "metrics.yml").read_text(encoding="utf-8") + "```")
+                 (metrics_path or ROOT / "metrics" / "metrics.yml").read_text(encoding="utf-8") + "```")
     return "\n".join(parts)
 
 
@@ -83,6 +83,8 @@ def main() -> int:
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--out", default=str(ROOT / "selfcheck" / "selfcheck.jsonl"))
     ap.add_argument("--resume", action="store_true")
+    ap.add_argument("--only", nargs="*")
+    ap.add_argument("--metrics", default=str(ROOT / "metrics" / "metrics.yml"))
     args = ap.parse_args()
 
     key = os.environ.get("ANTHROPIC_API_KEY")
@@ -92,13 +94,15 @@ def main() -> int:
 
     con = duckdb.connect()
     con.execute(f"set file_search_path='{ROOT}'")
-    context = build_context(con)
+    context = build_context(con, Path(args.metrics))
 
     qs = {}
     for fp in sorted((ROOT / "questions").glob("*.yaml")):
         if fp.stem == "scoring":
             continue
         qs[fp.stem] = yaml.safe_load(fp.read_text(encoding="utf-8"))["question"].strip()
+    if args.only:
+        qs = {k: v for k, v in qs.items() if k in args.only}
 
     out = Path(args.out)
     have = set()
