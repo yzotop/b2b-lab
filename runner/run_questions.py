@@ -58,11 +58,12 @@ def build_context(con) -> str:
             f"select count(*) from read_parquet('{ROOT/'data'/t}.parquet')").fetchone()[0]
         parts.append(f"\n### {t} ({n} строк)\n")
         parts.append("\n".join(f"  {c[0]} : {c[1]}" for c in cols))
-        sample = con.execute(
-            f"select * from read_parquet('{ROOT/'data'/t}.parquet') limit 2").fetchall()
-        parts.append("\n  примеры строк:")
-        for row in sample:
-            parts.append("    " + " | ".join(str(x)[:28] for x in row))
+        if SHOW_SAMPLES:
+            sample = con.execute(
+                f"select * from read_parquet('{ROOT/'data'/t}.parquet') limit 2").fetchall()
+            parts.append("\n  примеры строк:")
+            for row in sample:
+                parts.append("    " + " | ".join(str(x)[:28] for x in row))
     parts.append("\n\n## Семантический слой (metrics/metrics.yml)\n")
     parts.append("```yaml\n" + METRICS_PATH.read_text(encoding="utf-8") + "```")
     return "\n".join(parts)
@@ -131,6 +132,9 @@ def ask(client, model: str, context: str, question: str, con) -> dict:
 
 
 METRICS_PATH = ROOT / "metrics" / "metrics.yml"
+# Примеры строк выключаются, чтобы контекст ответа совпал с контекстом
+# самооценки (selfcheck/run_selfcheck.py): там строк данных не давалось.
+SHOW_SAMPLES = True
 
 
 def main() -> int:
@@ -142,10 +146,12 @@ def main() -> int:
     ap.add_argument("--only", nargs="*")
     ap.add_argument("--workers", type=int, default=1)
     ap.add_argument("--metrics", default=str(ROOT / "metrics" / "metrics.yml"))
+    ap.add_argument("--no-samples", action="store_true")
     args = ap.parse_args()
 
-    global METRICS_PATH
+    global METRICS_PATH, SHOW_SAMPLES
     METRICS_PATH = Path(args.metrics)
+    SHOW_SAMPLES = not args.no_samples
 
     key = os.environ.get("ANTHROPIC_API_KEY")
     if not key:
