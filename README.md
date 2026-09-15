@@ -1,8 +1,14 @@
-# Мир B2B-подписки
+# b2b-lab — стенд проверки AI-аналитика на B2B-подписке
 
-Второй синтетический мир. Строится ради типов задач, которых в ритейле
-нет по природе: продления, несколько дат у одного события, план против
-факта окончания периода.
+Синтетический подписочный бизнес (8,5 млн событий, 2015–2025) и шесть
+сюжетов, правильный ответ на которые известен по построению генератора.
+Меряется: отвечает ли LLM-агент на вопрос продакта верно, попадает ли
+в заложенный «наивный» ответ или уходит мимо — и помогает ли ему семантический слой.
+Результат (`claude-sonnet-5`, 14 вопросов × 3 повтора): **61.9% верных,
+16.7% наивных, 19.0% мимо**; граница «сюжет закрыт слоем» поведение
+не объяснила — 66.7% против 58.3% (`results/REPORT.md`).
+Второй стенд после `retail-lab` (пока приватный): те же приёмы на задачах,
+которых в ритейле нет, — продления, несколько дат у события, план против факта.
 
 Доменная модель — `docs/domain-model.md`.
 Что заложено, а что нет и почему — `BACKLOG.md`.
@@ -17,11 +23,17 @@
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-.venv/bin/python generator/gen_b2b.py     # ~40 секунд
+.venv/bin/python generator/gen_b2b.py     # ~10–13 секунд
 .venv/bin/python verify.py                # 32 проверки
 .venv/bin/python exports/make_export.py --all
 .venv/bin/python exports/verify_exports.py
+.venv/bin/python plan/gen_plan.py         # плановый слой
+.venv/bin/python plan/verify_plan.py      # 21 проверка
 ```
+
+Версии в `requirements.txt` закреплены. С чистого клона 2026-09-15
+(Python 3.14.4) все шаги выше проходят, семь хешей ниже совпадают.
+Время генерации замерено на Apple M4 (10 ядер, 16 ГБ), Python 3.14.4: 13 с первый запуск, 9–10 с повторные; на другой машине будет иначе.
 
 Вынесено из `retail-lab` 2026-09-01 отдельным репозиторием, без истории.
 Перенос проверен: хеши всех шести файлов совпали с записанными ниже,
@@ -59,6 +71,7 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 | `invoices.parquet` | `ac13ea2d2d8868c0e0448038cedd1fcb…` |
 | `orgs.parquet` | `f1a901bf6cafe67233ad75b6c5c0e0dc…` |
 | `payments.parquet` | `97edf3bb85c983534c4ffd666d68cd57…` |
+| `plan.parquet` | `83e4e2e383b7272c7416deb678e4720d…` |
 | `plans.parquet` | `a5dcb2646e2802aba1ff8c3df8609013…` |
 | `subscriptions.parquet` | `3c67706d1a99d02f9ef4e202cf3ce3bd…` |
 | `usage_events.parquet` | `382819f1004bd3a186d1a991e4b89307…` |
@@ -66,7 +79,7 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 Пересобрать и сверить:
 
 ```bash
-python3 generator/gen_b2b.py --out /tmp/b2b_check
+.venv/bin/python generator/gen_b2b.py --out /tmp/b2b_check
 shasum -a 256 /tmp/b2b_check/*.parquet
 ```
 
@@ -78,3 +91,7 @@ shasum -a 256 /tmp/b2b_check/*.parquet
 - заполнить пустой плановый месяц `2023-07` → падают две проверки сюжета 1;
 - вырезать добегание платежей → падают шесть проверок, включая сюжет 2
   целиком (три даты расчёта дают одно и то же число) и сверку с документацией.
+
+## Известные ограничения
+
+- `questions/verify_questions.py` падает с `KeyError: 'scenario'`: `load()` берёт все `questions/*.yaml`, включая `scoring.yaml`, в котором ключа `scenario` нет.
